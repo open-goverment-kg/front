@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import useWindowPosition from "../hook/useWindowPosition";
 import ImageCard from "./UI/card/ImageCard";
-import { Box, Grid, styled, Typography } from "@mui/material";
+import { Box, styled, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { ActionSlice } from "../redux/slice";
 import axios from "axios";
-import Chart from "./chart";
-import SimpleBarChart from "./chart/BarChart";
 
 const PlaceToVisit = () => {
   const checked = useWindowPosition("header");

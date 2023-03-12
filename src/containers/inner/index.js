@@ -35,7 +35,7 @@ const InnerPage = () => {
         console.log(error);
       }
     },
-    [id]
+    [id,getByIdHandler]
   );
 
   const changeData = () => {

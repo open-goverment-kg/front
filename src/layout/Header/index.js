@@ -25,7 +25,7 @@ const Header = () => {
       >
         <Toolbar className="appbarWrapper">
           <h1 className="appbarTitle">
-            My<span className="colorText">Kyrgyzstan.</span>
+            Жалобы<span className="colorText">24</span>
           </h1>
           <IconButton onClick={setOpenMenu}>
             <SortIcon className="icon" />

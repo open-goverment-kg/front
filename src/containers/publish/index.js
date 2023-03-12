@@ -247,7 +247,7 @@ const Publish = () => {
                 </Box>
                 <InputBase
                   name="tags"
-                  placeholder="Type and press enter"
+                  placeholder="Введите и нажмите клавишу ввод"
                   className="inputBase"
                   value={value}
                   onChange={(event) => setValue(event.target.value)}

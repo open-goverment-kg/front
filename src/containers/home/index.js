@@ -33,8 +33,8 @@ const Home = () => {
       >
         <div className="container">
           <h1 className="title">
-            Welcome to <br />
-            My <span className="colorText">Kyrgyzstan.</span>
+            Добро пожаловать в <br />
+            Жалобы<span className="colorText">24</span>
           </h1>
           <Scroll to="place-to-visit" smooth={true}>
             <IconButton>

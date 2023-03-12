@@ -10,6 +10,13 @@ const Themes = ({ children }) => {
           },
         },
       },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            background: "#5aff3d",
+          },
+        },
+      },
     },
   });
   return <ThemeProvider theme={mainTheme}>{children}</ThemeProvider>;

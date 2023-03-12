@@ -5,9 +5,13 @@ import {
   CardContent,
   CardMedia,
   Collapse,
+  Grid,
+  Rating,
   styled,
   Typography,
 } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const ImageCard = ({ place, checked }) => {
   return (
@@ -29,15 +33,28 @@ const ImageCard = ({ place, checked }) => {
               component="p"
               className="desc"
             >
-              {place.description}
+              {place.content}
             </Typography>
           </Box>
+          <Box>
+            {place.images.map((image) => (
+              <CardMedia
+                className="media"
+                image={image}
+                title="Contemplative Reptile"
+              />
+            ))}
+          </Box>
 
-          <CardMedia
-            className="media"
-            image={place.imageUrl}
-            title="Contemplative Reptile"
-          />
+          <Grid container spacing={5}>
+            <Grid item>
+              <FavoriteIcon />
+              <FavoriteBorderIcon />
+            </Grid>
+            <Grid item>
+              <Rating name="read-only" value={5} readOnly />
+            </Grid>
+          </Grid>
         </CardContent>
       </Card>
     </StyledCollapse>
@@ -52,7 +69,17 @@ const StyledCollapse = styled(Collapse)(() => ({
   },
   "& .media": {
     height: 240,
+    minWidth: "240px",
     borderRadius: "5px",
+  },
+  "& .medies": {
+    display: "flex",
+    width: "240px",
+    overflow: "auto",
+    gap: "8px",
+  },
+  "& .medies::-webkit-scrollbar": {
+    display: "none",
   },
   "& .title": {
     fontWeight: "bold",
@@ -69,5 +96,8 @@ const StyledCollapse = styled(Collapse)(() => ({
   },
   "& .typographies": {
     padding: "1rem",
+  },
+  "& .MuiSvgIcon-root": {
+    fill: "#5aff3d",
   },
 }));

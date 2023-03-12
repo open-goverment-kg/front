@@ -62,10 +62,10 @@ const Header = () => {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem>
+            <MenuItem onClick={setOpenMenu}>
               <Link to={ROUTES.MAIN}>Home</Link>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={setOpenMenu}>
               <Link to={ROUTES.PUBLISH}>Publish</Link>
             </MenuItem>
           </Menu>

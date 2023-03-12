@@ -114,7 +114,7 @@ const ImageCard = ({ place, checked }) => {
             </Grid>
             <Grid item display="flex" gap="8px">
               <Rating name="read-only" value={place.rating / 5} readOnly />
-              <Typography className="colorText">{place.rating}</Typography>
+              <Typography className="colorText">({place.rating})</Typography>
             </Grid>
           </Grid>
         </CardContent>
@@ -130,7 +130,7 @@ const StyledCollapse = styled(Collapse)(() => ({
     color: "green",
   },
   "& .MuiPaginationItem-root.Mui-selected": {
-    color: "blue",
+    color: "white",
   },
 
   "& .root": {

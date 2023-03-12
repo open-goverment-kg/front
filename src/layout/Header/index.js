@@ -68,6 +68,12 @@ const Header = () => {
             <MenuItem onClick={setOpenMenu}>
               <Link to={ROUTES.PUBLISH}>Publish</Link>
             </MenuItem>
+            <MenuItem onClick={setOpenMenu}>
+              <Link to={ROUTES.SIGNIN}>Sign In</Link>
+            </MenuItem>
+            <MenuItem onClick={setOpenMenu}>
+              <Link to={ROUTES.SIGNUP}>Sign Up</Link>
+            </MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>

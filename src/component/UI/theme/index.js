@@ -14,8 +14,9 @@ const Themes = ({ children }) => {
         styleOverrides: {
           root: {
             background: "#5aff3d",
+            color: "#ff3d9b",
             "&:hover": {
-              background: "#5aff3d99"
+              background: "#5aff3d99",
             },
           },
         },

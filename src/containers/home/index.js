@@ -38,6 +38,8 @@ const Home = () => {
             </IconButton>
           </Scroll>
         </div>
+
+        
       </Collapse>
       <Box className="cards" id="place-to-visit">
         <Container>

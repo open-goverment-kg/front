@@ -1,0 +1,31 @@
+.App {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.card-container {
+  padding: 10px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid orange;
+  border-radius: 0 50px;
+  background-color: rgb(255, 201, 24);
+}
+
+.card-image {
+  width: 300px;
+  height: 200px;
+  border-radius: 0 50px;
+}
+
+.card-sub-box {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: red;
+}

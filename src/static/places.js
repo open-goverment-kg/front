@@ -9,7 +9,7 @@ const places = [
     time: 1500,
     tags: [],
     likes: 0,
-    rating: 0,
+    rating: 5,
     images: [image, image2, image, image2],
   },
   {
@@ -20,7 +20,7 @@ const places = [
     time: 1500,
     tags: [],
     likes: 0,
-    rating: 0,
+    rating: 5,
     images: [image, image2, image, image2],
   },
 ];

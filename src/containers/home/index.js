@@ -51,7 +51,7 @@ const Home = () => {
 export default Home;
 
 const StyledHome = styled(Box)(({ image }) => ({
-  minHeight: "190vh",
+  minHeight: "200vh",
   backgroundImage: `url(${image})`,
   backgroundRepeat: "no-repeat",
   backgroundSize: "contain",

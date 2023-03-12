@@ -13,13 +13,17 @@ import {
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { STORAGE } from "../../../utils/general";
+
+const getId = JSON.parse(localStorage.getItem(STORAGE) || "[]");
 
 const ImageCard = ({ place, checked }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [activeDot, setActiveDot] = React.useState(1);
+  const [like, setLike] = useState(false);
+  const [likes, setLikes] = useState(place.likes);
 
   const handleDotChange = (event, value) => {
-    console.log(value);
     setActiveDot(value);
     setScrollPosition((value - 1) * 248);
   };
@@ -29,6 +33,25 @@ const ImageCard = ({ place, checked }) => {
   useEffect(() => {
     scrollRef.current.scrollLeft = scrollPosition;
   }, [scrollPosition]);
+
+  const changeLikeHandler = () => {
+    if (!getId.includes(place.id)) {
+      localStorage.setItem(STORAGE, JSON.stringify([...getId, place.id]));
+      setLike((prevState) => !prevState);
+      return setLikes((prevState) => prevState + 1);
+    }
+    const updateStorage = getId.filter((id) => id !== place.id);
+    localStorage.setItem(STORAGE, JSON.stringify(updateStorage));
+    setLike((prevState) => !prevState);
+    setLikes((prevState) => prevState - 1);
+  };
+
+  useEffect(() => {
+    if (getId.includes(place.id)) {
+      setLike(true);
+      setLikes((prevState) => prevState + 1);
+    }
+  }, [place]);
 
   return (
     <StyledCollapse in={checked} {...(checked ? { timeout: 1000 } : {})}>
@@ -83,12 +106,15 @@ const ImageCard = ({ place, checked }) => {
           </Box>
 
           <Grid container spacing={5}>
-            <Grid item>
-              <FavoriteIcon />
-              <FavoriteBorderIcon />
+            <Grid item display="flex" gap="8px">
+              <Box onClick={changeLikeHandler}>
+                {like ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              </Box>
+              <Typography className="colorText">{likes}</Typography>
             </Grid>
-            <Grid item>
-              <Rating name="read-only" value={5} readOnly />
+            <Grid item display="flex" gap="8px">
+              <Rating name="read-only" value={place.rating / 5} readOnly />
+              <Typography className="colorText">{place.rating}</Typography>
             </Grid>
           </Grid>
         </CardContent>

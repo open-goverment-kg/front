@@ -1,26 +1,27 @@
 import image from "../assets/images/b170629001.jpg";
+import image2 from "../assets/images/second.webp";
 const places = [
   {
     id: 1,
-    title: "Green",
+    title: "Kyrgyzstan",
     content:
-      "The Maldives are home to some of the world's most ravishing islands, but it's the sea, which truly makes these islands shine. Luminous aquamarine waters with a crystal clarity lap upon these dazzling white shores, which barely peek above the Indian Ocean.",
+      "Anyone who has ever seen the unique nature of Kyrgyzstan will forever remember the picturesque mountain lakes, the healing springs, the rough mountain rivers, the majestic mountains, the glaciers of the century and the life of the nomads in the yurts",
     time: 1500,
     tags: [],
     likes: 0,
     rating: 0,
-    images: [image, image, image, image],
+    images: [image, image2, image, image2],
   },
   {
     id: 2,
-    title: "Red",
+    title: "Issyk Kul",
     content:
-      "Shaped like a giant sombrero, this lush volcanic island stars in countless South Pacific fantasies. The focal point and best asset of this tropical beauty is its ravishing lagoon in technicolor turquoise. Fish, turtles, sharks, and rays swim in the clear waters.",
+      "Whether hiking, horse riding, swimming at Issyk Kul or a cultural trip, you and your family can experience many aspects of the Central Asian nomad cultures and gain deep insights into the traditions and history of the country.",
     time: 1500,
     tags: [],
     likes: 0,
     rating: 0,
-    images: [image, image, image, image],
+    images: [image, image2, image, image2],
   },
 ];
 

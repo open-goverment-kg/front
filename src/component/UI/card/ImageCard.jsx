@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Card,
@@ -6,6 +6,7 @@ import {
   CardMedia,
   Collapse,
   Grid,
+  Pagination,
   Rating,
   styled,
   Typography,
@@ -14,6 +15,21 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const ImageCard = ({ place, checked }) => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [activeDot, setActiveDot] = React.useState(1);
+
+  const handleDotChange = (event, value) => {
+    console.log(value);
+    setActiveDot(value);
+    setScrollPosition((value - 1) * 248);
+  };
+
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    scrollRef.current.scrollLeft = scrollPosition;
+  }, [scrollPosition]);
+
   return (
     <StyledCollapse in={checked} {...(checked ? { timeout: 1000 } : {})}>
       <Card className="root">
@@ -37,13 +53,26 @@ const ImageCard = ({ place, checked }) => {
             </Typography>
           </Box>
           <Box>
-            {place.images.map((image) => (
-              <CardMedia
-                className="media"
-                image={image}
-                title="Contemplative Reptile"
+            <Box className="medies" ref={scrollRef}>
+              {place.images.map((image, index) => (
+                <CardMedia
+                  key={index}
+                  className="media"
+                  image={image}
+                  title="Contemplative Reptile"
+                />
+              ))}
+            </Box>
+            <Box sx={{ padding: "10px 0" }}>
+              <Pagination
+                count={place.images.length}
+                page={activeDot}
+                onChange={handleDotChange}
+                color="primary"
+                variant="outlined"
+                size="small"
               />
-            ))}
+            </Box>
           </Box>
 
           <Grid container spacing={5}>
@@ -77,6 +106,7 @@ const StyledCollapse = styled(Collapse)(() => ({
     width: "240px",
     overflow: "auto",
     gap: "8px",
+    transition: "scroll-left 5s ease-in-out",
   },
   "& .medies::-webkit-scrollbar": {
     display: "none",

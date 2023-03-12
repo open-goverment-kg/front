@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   CardMedia,
   Chip,
@@ -19,10 +20,24 @@ const Publish = () => {
   const [chips, setChips] = useState([]);
   const [images, setImages] = useState([]);
 
+  const onSubmit = (values) => {
+    console.log(values);
+  };
+
+  const { handleSubmit, handleChange, values, setFieldValue, isSubmitting } =
+    useFormik({
+      initialValues: {
+        title: "",
+        tags: [],
+        content: "",
+      },
+      onSubmit,
+    });
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter" && value.trim() !== "") {
-      if (!chips.includes(value.trim())) {
-        setChips([...chips, value.trim()]);
+      if (!values.tags.includes(value.trim())) {
+        setFieldValue("tags", [...values.tags, value.trim()]);
         setValue("");
       }
     }
@@ -36,38 +51,45 @@ const Publish = () => {
     setImages((prevState) => [...prevState, image]);
   };
 
-  const { handleSubmit } = useFormik();
-
   return (
     <StyledPublish>
       <Container>
-        <Box>
-          <Grid container spacing={5} onSubmit={handleSubmit}>
+        <Box onSubmit={handleSubmit}>
+          <Grid container spacing={5}>
             <Grid item xl={4} lg={4}>
               <FormControl>
-                <FormLabel className="formLabel" required>
+                <FormLabel className="formLabel" htmlFor="title" required>
                   Заголовок публикации
                 </FormLabel>
                 <InputBase
+                  name="title"
                   placeholder="Заголовок публикации"
                   className="inputBase"
+                  value={values.title}
+                  onChange={handleChange}
                 />
               </FormControl>
             </Grid>
             <Grid item xl={6} lg={6}>
               <FormControl>
-                <FormLabel className="formLabel" required>
+                <FormLabel className="formLabel" htmlFor="content" required>
                   Содержимое публикации
                 </FormLabel>
                 <InputBase
+                  name="content"
                   placeholder="Содержимое публикации"
                   className="inputBase"
+                  value={values.content}
+                  onChange={handleChange}
                 />
               </FormControl>
             </Grid>
+
             <Grid item xl={12} lg={12}>
               <FormControl>
-                <FormLabel className="formLabel">Теги</FormLabel>
+                <FormLabel className="formLabel" htmlFor="tags">
+                  Теги
+                </FormLabel>
                 <Box className="chips">
                   {chips.map((chip) => (
                     <Chip
@@ -79,6 +101,7 @@ const Publish = () => {
                   ))}
                 </Box>
                 <InputBase
+                  name="tags"
                   placeholder="Type and press enter"
                   className="inputBase"
                   value={value}
@@ -93,8 +116,8 @@ const Publish = () => {
                 <PhotoUploader getImages={getImages} />
               </FormControl>
             </Grid>
-            {images.map((image) => (
-              <Grid item xl={2.5} lg={2.5} display="flex">
+            {images.map((image, i) => (
+              <Grid item xl={2.5} lg={2.5} display="flex" key={i}>
                 <Card>
                   <CardMedia
                     image={image}
@@ -105,6 +128,16 @@ const Publish = () => {
                 </Card>
               </Grid>
             ))}
+          </Grid>
+
+          <Grid item xl={6} lg={6} style={{ paddingTop: "20px" }}>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              style={{ color: "white", width: "360px" }}
+            >
+              Опубликовать
+            </Button>
           </Grid>
         </Box>
       </Container>
@@ -136,6 +169,9 @@ const StyledPublish = styled(Box)(() => ({
   "& .formLabel": {
     color: "#ccc",
     padding: "3px 0",
+  },
+  "& .MuiFormLabel-asterisk": {
+    color: "red",
   },
   "& .purpleChip": {
     backgroundColor: "#5aff3d",

@@ -63,7 +63,14 @@ const ImageCard = ({ place, checked }) => {
                 />
               ))}
             </Box>
-            <Box sx={{ padding: "10px 0" }}>
+            <Box
+              sx={{
+                padding: "10px 0",
+                width: "240px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <Pagination
                 count={place.images.length}
                 page={activeDot}
@@ -93,6 +100,13 @@ const ImageCard = ({ place, checked }) => {
 export default ImageCard;
 
 const StyledCollapse = styled(Collapse)(() => ({
+  "& .MuiPaginationItem-root": {
+    color: "green",
+  },
+  "& .MuiPaginationItem-root.Mui-selected": {
+    color: "blue",
+  },
+
   "& .root": {
     background: "rgba(0,0,0,0.5)",
   },

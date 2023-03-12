@@ -56,6 +56,9 @@ const Home = () => {
               <SimpleBarChart />
             </Grid>
             <Grid item>
+              <Box sx={{ padding: "50px 0" }}>
+                <Typography variant="h5">Жалоба</Typography>
+              </Box>
               <PlaceToVisit />
             </Grid>
           </Grid>
@@ -68,13 +71,13 @@ const Home = () => {
 export default Home;
 
 const StyledHome = styled(Box)(({ image }) => ({
-  minHeight: "200vh",
+  minHeight: "150vh",
   backgroundImage: `url(${image})`,
   backgroundRepeat: "no-repeat",
   backgroundSize: "contain",
   display: "flex",
   flexDirection: "column",
-  gap: "200px",
+  gap: "400px",
   "& .cards": {
     padding: "120px 0",
   },
@@ -84,7 +87,7 @@ const StyledHome = styled(Box)(({ image }) => ({
   },
   "& .title": {
     color: "#fff",
-    fontSize: "4.5rem",
+    fontSize: "3.5rem",
   },
   "& .goDown": {
     color: "#5AFF3D",

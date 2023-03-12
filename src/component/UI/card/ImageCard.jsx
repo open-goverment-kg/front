@@ -185,7 +185,6 @@ const StyledCollapse = styled(Collapse)(() => ({
   },
   "& .title": {
     fontWeight: "bold",
-    fontSize: "2rem",
     color: "#fff",
   },
   "& .desc": {

@@ -26,9 +26,6 @@ const PlaceToVisit = () => {
 
   return (
     <StyledPlaceToVisit className="root" id="place-to-visit">
-      <Box>
-        <Typography></Typography>
-      </Box>
       {data?.map((place) => (
         <ImageCard place={place} checked={checked} key={place.id} />
       ))}

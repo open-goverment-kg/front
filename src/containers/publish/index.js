@@ -9,6 +9,9 @@ import {
   FormLabel,
   Grid,
   InputBase,
+  InputLabel,
+  MenuItem,
+  Select,
   styled,
 } from "@mui/material";
 import { useFormik } from "formik";
@@ -30,8 +33,52 @@ const schema = yup.object().shape({
   images: yup.array().min(2).of(yup.string()), // add images field here
 });
 
+const menuItem = [
+  { id: 1, title: "Выберите cоциальное положение" },
+  { id: 2, title: "Пенсионер" },
+  { id: 3, title: "Пенсионер силовых структур" },
+  { id: 4, title: "Рабочий" },
+  { id: 5, title: "Беженец" },
+  { id: 6, title: "Служащий" },
+  { id: 7, title: "Учащийся, студент" },
+  { id: 63, title: "Имам, священник" },
+  { id: 64, title: "Военнослужащий" },
+  { id: 46, title: "Фермер" },
+  { id: 63, title: "Безработный" },
+  { id: 643, title: "Предприниматель" },
+  { id: 6233, title: "Домохозяйка" },
+  { id: 686, title: "Творческая и научная интеллигенция" },
+  { id: 9776, title: "Общественно-политический деятель" },
+  { id: 9776, title: "Госслужащий" },
+  { id: 977346, title: "Мигрант" },
+  { id: 977343446, title: "Другое" },
+];
+
+const menuItem2 = [
+  {
+    id: 1,
+    title:
+      "'Инновационный центр' при Государственном агентстве интеллектуальной собственности и инноваций при Кабинете Министров Кыргызской Республики",
+  },
+  { id: 2, title: "Центр по стандартизации и метрологии при МЭиК КР " },
+  { id: 3, title: "Социальный фонд Кыргызской Республики" },
+  { id: 4, title: "Министерство экономики и коммерции Кыргызской Республики " },
+  { id: 5, title: "Министерство обороны Кыргызской Республики" },
+  {
+    id: 5,
+    title: "Центр подготовки и переподготовки специалистов гражданской защиты",
+  },
+  {
+    id: 6,
+    title:
+      "Государственное агентство интеллектуальной собственности и инноваций при Кабинете Министров Кыргызской Республики",
+  },
+];
+
 const Publish = () => {
   const [value, setValue] = useState("");
+  const [socialPosition, setSocialPosition] = useState("");
+  const [recipient, setRecipient] = useState("");
 
   const postData = async (data) => {
     try {
@@ -112,7 +159,7 @@ const Publish = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xl={6} lg={6}>
+            <Grid item xl={7} lg={7}>
               <FormControl>
                 <FormLabel className="formLabel" htmlFor="content" required>
                   Содержимое публикации
@@ -124,6 +171,62 @@ const Publish = () => {
                   value={values.content}
                   onChange={handleChange}
                 />
+              </FormControl>
+            </Grid>
+
+            <Grid item>
+              <FormControl
+                sx={{ m: 1, minWidth: 360, color: "#ccc" }}
+                size="small"
+              >
+                <FormLabel className="formLabel" id="demo-select-small">
+                  Социальное положение
+                </FormLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  className="inputBase"
+                  value={socialPosition}
+                  name="socialPosition"
+                  onChange={(e) => setSocialPosition(e.target.value)}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {menuItem.map((item) => (
+                    <MenuItem value={item.title} key={item.id}>
+                      {item.title}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item>
+              <FormControl
+                sx={{ m: 1, minWidth: 360, color: "#ccc" }}
+                size="small"
+              >
+                <FormLabel className="formLabel" id="demo-select-small">
+                  Добавить получателя
+                </FormLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  className="inputBase"
+                  value={recipient}
+                  name="recipient"
+                  onChange={(e) => setRecipient(e.target.value)}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {menuItem2.map((item) => (
+                    <MenuItem value={item.title} key={item.id}>
+                      {item.title}
+                    </MenuItem>
+                  ))}
+                </Select>
               </FormControl>
             </Grid>
 
@@ -221,5 +324,8 @@ const StyledPublish = styled(Box)(() => ({
     overflow: "auto",
     display: "flex",
     gap: 8,
+  },
+  "& .MuiFormControl-root": {
+    margin: 0,
   },
 }));

@@ -14,24 +14,66 @@ import {
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import PhotoUploader from "../../component/PhotoUpload";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { ActionSlice } from "../../redux/slice";
+import { useNavigate } from "react-router-dom";
+
+import * as yup from "yup";
+
+const schema = yup.object().shape({
+  title: yup.string().required(),
+  tags: yup.array().of(yup.string()),
+  content: yup.string().required(),
+  likes: yup.number().integer().min(0),
+  rating: yup.number().min(0).max(5),
+  images: yup.array().min(2).of(yup.string()), // add images field here
+});
 
 const Publish = () => {
   const [value, setValue] = useState("");
-  const [chips, setChips] = useState([]);
-  const [images, setImages] = useState([]);
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const postData = async (data) => {
+    try {
+      await axios.post("http://localhost:3001/cards", data);
+      getData();
+    } catch (erro) {
+      console.log(erro);
+    }
   };
 
-  const { handleSubmit, handleChange, values, setFieldValue, isSubmitting } =
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const getData = async (data) => {
+    try {
+      const response = await axios.get("http://localhost:3001/cards");
+      dispatch(ActionSlice.getData(response.data));
+    } catch (erro) {
+      console.log(erro);
+    }
+  };
+
+  const onSubmit = (values, action) => {
+    postData(values);
+    navigate("/");
+    action.resetForm();
+  };
+
+  const { handleSubmit, handleChange, values, setFieldValue, setValues } =
     useFormik({
       initialValues: {
         title: "",
         tags: [],
         content: "",
+        likes: 0,
+        rating: 0,
+        images: [],
+        isLike: false,
       },
       onSubmit,
+      validationSchema: schema,
     });
 
   const handleKeyPress = (event) => {
@@ -44,17 +86,17 @@ const Publish = () => {
   };
 
   const handleDelete = (chipToDelete) => {
-    setChips((prevState) => prevState.filter((chip) => chip !== chipToDelete));
+    setValues((prevState) => prevState.tags((tag) => tag !== chipToDelete));
   };
 
   const getImages = (image) => {
-    setImages((prevState) => [...prevState, image]);
+    setFieldValue("images", [...values.images, image]);
   };
 
   return (
     <StyledPublish>
       <Container>
-        <Box onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit}>
           <Grid container spacing={5}>
             <Grid item xl={4} lg={4}>
               <FormControl>
@@ -91,7 +133,7 @@ const Publish = () => {
                   Теги
                 </FormLabel>
                 <Box className="chips">
-                  {chips.map((chip) => (
+                  {values.tags.map((chip) => (
                     <Chip
                       key={chip}
                       label={chip}
@@ -116,7 +158,7 @@ const Publish = () => {
                 <PhotoUploader getImages={getImages} />
               </FormControl>
             </Grid>
-            {images.map((image, i) => (
+            {values.images.map((image, i) => (
               <Grid item xl={2.5} lg={2.5} display="flex" key={i}>
                 <Card>
                   <CardMedia
@@ -131,11 +173,7 @@ const Publish = () => {
           </Grid>
 
           <Grid item xl={6} lg={6} style={{ paddingTop: "20px" }}>
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              style={{ color: "white", width: "360px" }}
-            >
+            <Button type="submit" style={{ color: "white", width: "360px" }}>
               Опубликовать
             </Button>
           </Grid>

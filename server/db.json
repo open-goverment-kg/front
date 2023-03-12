@@ -1,0 +1,16 @@
+{
+  "cards": [
+    {
+      "id": 1,
+      "title": "Kyrgyzstan",
+      "tags": [],
+      "content": "Anyone who has ever seen the unique nature of Kyrgyzstan will forever remember the picturesque mountain lakes, the healing springs, the rough mountain rivers, the majestic mountains, the glaciers of the century and the life of the nomads in the yurts",
+      "likes": 0,
+      "rating": 0,
+      "isLike": false,
+      "images": [
+        "https://cdn.odysseytraveller.com/app/uploads/2019/07/A-yurt-in-the-mountains-of-Kyrgyzstan.jpg"
+      ]
+    }
+  ]
+}

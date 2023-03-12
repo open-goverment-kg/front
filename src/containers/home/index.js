@@ -3,14 +3,18 @@ import {
   Collapse,
   Container,
   CssBaseline,
+  Grid,
   IconButton,
   styled,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import PlaceToVisit from "../../component/PlaceToVisit";
 import bgImage from "../../assets/images/b170629001.jpg";
 import { Link as Scroll } from "react-scroll";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Chart from "../../component/chart";
+import SimpleBarChart from "../../component/chart/BarChart";
 
 const Home = () => {
   const [checked, setChecked] = useState(false);
@@ -41,7 +45,20 @@ const Home = () => {
       </Collapse>
       <Box className="cards" id="place-to-visit">
         <Container>
-          <PlaceToVisit />
+          <Grid container spacing={9}>
+            <Grid item xs={12}>
+              <Typography variant="h5">Статистика</Typography>
+            </Grid>
+            <Grid item>
+              <Chart />
+            </Grid>
+            <Grid item>
+              <SimpleBarChart />
+            </Grid>
+            <Grid item>
+              <PlaceToVisit />
+            </Grid>
+          </Grid>
         </Container>
       </Box>
     </StyledHome>

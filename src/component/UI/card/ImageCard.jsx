@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
+  Button,
   Card,
   CardContent,
   CardMedia,
@@ -13,15 +14,15 @@ import {
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { STORAGE } from "../../../utils/general";
-
-const getId = JSON.parse(localStorage.getItem(STORAGE) || "[]");
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { ActionSlice } from "../../../redux/slice";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const ImageCard = ({ place, checked }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [activeDot, setActiveDot] = React.useState(1);
-  const [like, setLike] = useState(false);
-  const [likes, setLikes] = useState(place.likes);
 
   const handleDotChange = (event, value) => {
     setActiveDot(value);
@@ -30,51 +31,77 @@ const ImageCard = ({ place, checked }) => {
 
   const scrollRef = useRef(null);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     scrollRef.current.scrollLeft = scrollPosition;
   }, [scrollPosition]);
 
-  const changeLikeHandler = () => {
-    if (!getId.includes(place.id)) {
-      localStorage.setItem(STORAGE, JSON.stringify([...getId, place.id]));
-      setLike((prevState) => !prevState);
-      return setLikes((prevState) => prevState + 1);
+  const getByIdHandler = useCallback(async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/cards`);
+      dispatch(ActionSlice.getData(response.data));
+    } catch (error) {
+      console.log(error);
     }
-    const updateStorage = getId.filter((id) => id !== place.id);
-    localStorage.setItem(STORAGE, JSON.stringify(updateStorage));
-    setLike((prevState) => !prevState);
-    setLikes((prevState) => prevState - 1);
-  };
+  }, []);
 
-  useEffect(() => {
-    if (getId.includes(place.id)) {
-      setLike(true);
-      setLikes((prevState) => prevState + 1);
+  const updateByIdHandler = useCallback(async (updateData) => {
+    try {
+      await axios.put(`http://localhost:3001/cards/${place.id}`, updateData);
+      getByIdHandler();
+    } catch (error) {
+      console.log(error);
     }
-  }, [place]);
+  }, []);
+
+  const removeByIdHandler = useCallback(async (updateData) => {
+    try {
+      await axios.delete(`http://localhost:3001/cards/${place.id}`, updateData);
+      getByIdHandler();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const changeLikeHandler = () => {
+    let likeCount;
+    const newIsLikeValue = !place.isLike;
+    if (!newIsLikeValue) {
+      likeCount = place.likes - 1;
+    } else {
+      likeCount = place.likes + 1;
+    }
+
+    const updateData = { ...place, isLike: newIsLikeValue, likes: likeCount };
+    updateByIdHandler(updateData);
+  };
 
   return (
     <StyledCollapse in={checked} {...(checked ? { timeout: 1000 } : {})}>
       <Card className="root">
         <CardContent className="card_content">
-          <Box className="typographies">
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="h1"
-              className="title"
-            >
-              {place.title}
-            </Typography>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              component="p"
-              className="desc"
-            >
-              {place.content}
-            </Typography>
-          </Box>
+          <Link to={`card/${place.id}`}>
+            <Box className="typographies">
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="h1"
+                className="title"
+              >
+                {place.title}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                component="p"
+                className="desc"
+              >
+                {place.content}
+              </Typography>
+            </Box>
+          </Link>
+
           <Box>
             <Box className="medies" ref={scrollRef}>
               {place.images.map((image, index) => (
@@ -108,13 +135,18 @@ const ImageCard = ({ place, checked }) => {
           <Grid container spacing={5}>
             <Grid item display="flex" gap="8px">
               <Box onClick={changeLikeHandler}>
-                {like ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                {place.isLike ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </Box>
-              <Typography className="colorText">{likes}</Typography>
+              <Typography className="colorText">{place.likes}</Typography>
             </Grid>
             <Grid item display="flex" gap="8px">
               <Rating name="read-only" value={place.rating / 5} readOnly />
               <Typography className="colorText">{place.rating}</Typography>
+            </Grid>
+            <Grid item>
+              <Button onClick={removeByIdHandler}>
+                <DeleteIcon />
+              </Button>
             </Grid>
           </Grid>
         </CardContent>
@@ -168,6 +200,6 @@ const StyledCollapse = styled(Collapse)(() => ({
     padding: "1rem",
   },
   "& .MuiSvgIcon-root": {
-    fill: "#5aff3d",
+    fill: "#ff3d9b",
   },
 }));
